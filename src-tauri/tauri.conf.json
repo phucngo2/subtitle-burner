@@ -15,13 +15,18 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "dialog": {
+        "open": true
       }
     },
     "windows": [
       {
         "title": "Subtitle Burner",
-        "width": 800,
-        "height": 600
+        "width": 600,
+        "height": 600,
+        "maximizable": false,
+        "resizable": false
       }
     ],
     "security": {

@@ -8,25 +8,20 @@ use ffmpeg_sidecar::command::FfmpegCommand;
 use std::thread;
 use tauri::{AppHandle, Manager};
 
-use models::render_progress::RenderProgress;
+use models::{render_info::RenderInfo, render_progress::RenderProgress};
 use utils::consts;
 
 #[tauri::command]
-fn render(
-    input_video: String,
-    subtitles_file: String,
-    output_video: String,
-    app_handle: AppHandle,
-) {
+fn render(render_info: RenderInfo, app_handle: AppHandle) {
     thread::spawn(move || {
         let result: Result<(), std::io::Error> = FfmpegCommand::new()
             .args([
                 "-y",
                 "-i",
-                &input_video,
+                &render_info.input_video,
                 "-vf",
-                &format!("subtitles='{}'", &subtitles_file),
-                &output_video,
+                &format!("subtitles='{}'", &render_info.subtitles_file),
+                &render_info.output_video,
             ])
             .spawn()
             .unwrap()
