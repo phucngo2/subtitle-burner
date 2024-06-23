@@ -3,14 +3,17 @@ import {
   SUBTITLE_FILE_EXTENSIONS,
   VIDEO_FILE_EXTENSIONS,
 } from "@/config/file-extensions.config";
+import { RENDERING_PATH } from "@/config/routes.config";
 import { useInvokeRenderEvent } from "@/events/use-invoke-render.event";
 import { IVideoRenderRequest } from "@/types";
 import { getFileValidator } from "@/utils";
+import { useNavigate } from "@solidjs/router";
 import { createForm } from "@tanstack/solid-form";
 import { Component, JSX } from "solid-js";
 
 export const RenderForm: Component<{}> = () => {
   const invokeRenderEvent = useInvokeRenderEvent();
+  const navigate = useNavigate();
 
   const form = createForm<IVideoRenderRequest>(() => ({
     defaultValues: {
@@ -21,6 +24,7 @@ export const RenderForm: Component<{}> = () => {
     onSubmit: async ({ value }) => {
       console.log(value);
       invokeRenderEvent(value);
+      navigate(RENDERING_PATH);
     },
   }));
 
