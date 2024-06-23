@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@solidjs/router": "^0.13.6",
     "@tauri-apps/api": "^1",
     "solid-js": "^1.7.8"
   },
