@@ -28,7 +28,7 @@ fn render(render_info: RenderInfo, app_handle: AppHandle) {
             .iter()
             .unwrap()
             .filter_progress()
-            .map(|progress| {
+            .map(|progress: ffmpeg_sidecar::event::FfmpegProgress| {
                 RenderProgress::new(
                     progress.bitrate_kbps,
                     progress.fps,
@@ -48,10 +48,30 @@ fn render(render_info: RenderInfo, app_handle: AppHandle) {
                     })
             });
 
-        // Handle errors from rendering event emission
+        // Handle errors from rendering or event emission
         if let Err(err) = result {
             eprintln!("Error during rendering: {}", err);
-            // Handle the error as needed (log, notify user, etc.)
+            // Emit a failure event to the frontend
+            app_handle
+                .emit_to(
+                    consts::MAIN_WINDOW,
+                    consts::RENDERING_ERROR_EVENT,
+                    "Render Failed!",
+                )
+                .unwrap_or_else(|err| {
+                    eprintln!("Failed to emit render failure event: {}", err);
+                });
+        } else {
+            // Emit a success event to the frontend
+            app_handle
+                .emit_to(
+                    consts::MAIN_WINDOW,
+                    consts::RENDER_SUCCESS_EVENT,
+                    "Render Success!",
+                )
+                .unwrap_or_else(|err| {
+                    eprintln!("Failed to emit render success event: {}", err);
+                });
         }
     });
 }
