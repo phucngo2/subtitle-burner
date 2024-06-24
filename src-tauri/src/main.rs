@@ -40,7 +40,7 @@ fn render(render_info: RenderInfo, app_handle: AppHandle) {
             })
             .try_for_each(|progress: RenderProgress| {
                 app_handle
-                    .emit_all(consts::RENDERING_EVENT, progress)
+                    .emit_to(consts::MAIN_WINDOW, consts::RENDERING_EVENT, progress)
                     .map_err(|err: tauri::Error| {
                         eprintln!("Error emitting rendering event: {}", err);
                         // Return an error to stop iteration
