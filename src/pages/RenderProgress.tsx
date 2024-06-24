@@ -3,8 +3,9 @@ import { Component } from "solid-js";
 
 const RenderProgress: Component<{}> = () => {
   return (
-    <div class="flex flex-col items-center gap-12">
+    <div class="flex flex-col items-center gap-8">
       <Header title="Rendering..." />
+      <progress class="progress progress-primary w-full"></progress>
       <RenderProgressInfo />
     </div>
   );

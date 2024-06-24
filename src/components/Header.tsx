@@ -1,7 +1,7 @@
-import { Component } from "solid-js";
+import { Component, JSXElement } from "solid-js";
 
 interface Props {
-  title: string;
+  title: JSXElement;
 }
 
 export const Header: Component<Props> = (props) => {

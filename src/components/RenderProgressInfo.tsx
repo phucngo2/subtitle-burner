@@ -14,7 +14,7 @@ export const RenderProgressInfo: Component<{}> = () => {
   });
 
   return (
-    <div class="flex flex-col w-full items-center gap-6">
+    <div class="flex flex-col w-full items-center gap-3.5">
       <InfoItem title="FPS" value={store.fps} />
       <InfoItem title="Speed" value={store.speed.toLocaleString()} />
       <InfoItem

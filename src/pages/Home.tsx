@@ -1,9 +1,10 @@
-import { RenderForm } from "@/components";
+import { Header, RenderForm } from "@/components";
 import { Component } from "solid-js";
 
 const Home: Component<{}> = () => {
   return (
-    <div class="flex flex-col items-center gap-6">
+    <div class="flex flex-col items-center gap-8">
+      <Header title="🔥 Subtitle Burner 🔥" />
       <RenderForm />
     </div>
   );
