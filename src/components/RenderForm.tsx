@@ -10,6 +10,12 @@ import { getFileValidator } from "@/utils";
 import { useNavigate } from "@solidjs/router";
 import { createForm } from "@tanstack/solid-form";
 import { Component, JSX } from "solid-js";
+import {
+  FileTextIcon,
+  PaintbrushIcon,
+  RocketIcon,
+  VideoIcon,
+} from "lucide-solid";
 
 export const RenderForm: Component<{}> = () => {
   const invokeRenderEvent = useInvokeRenderEvent();
@@ -28,6 +34,10 @@ export const RenderForm: Component<{}> = () => {
     },
   }));
 
+  const handleClearAll = () => {
+    form.reset();
+  };
+
   const handleSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -38,7 +48,7 @@ export const RenderForm: Component<{}> = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      class="flex flex-col gap-8 w-full items-center"
+      class="card bg-neutral flex flex-col gap-5 w-full items-center p-8"
     >
       <form.Field
         name="inputVideo"
@@ -51,15 +61,9 @@ export const RenderForm: Component<{}> = () => {
           <FilePicker
             label="Input Video"
             field={field}
-            dialogOptions={{
-              filters: [
-                {
-                  extensions: VIDEO_FILE_EXTENSIONS,
-                  name: "*",
-                },
-              ],
-            }}
             required
+            allowedExtensions={VIDEO_FILE_EXTENSIONS}
+            Icon={<VideoIcon />}
           />
         )}
       </form.Field>
@@ -74,38 +78,29 @@ export const RenderForm: Component<{}> = () => {
           <FilePicker
             label="Subtitle File"
             field={field}
-            dialogOptions={{
-              filters: [
-                {
-                  extensions: SUBTITLE_FILE_EXTENSIONS,
-                  name: "*",
-                },
-              ],
-            }}
             required
-          />
-        )}
-      </form.Field>
-      <form.Field
-        name="outputVideo"
-        validators={getFileValidator({
-          fieldName: "Output Folder",
-        })}
-      >
-        {(field) => (
-          <FilePicker
-            label="Ouput Folder"
-            field={field}
-            dialogOptions={{
-              directory: true,
-            }}
-            required
+            allowedExtensions={SUBTITLE_FILE_EXTENSIONS}
+            Icon={<FileTextIcon />}
           />
         )}
       </form.Field>
       <div class="w-full flex flex-row items-center justify-center gap-4">
-        <Button type="button">Clear All</Button>
-        <Button type="submit">Submit</Button>
+        <Button
+          type="button"
+          onClick={handleClearAll}
+          Icon={<PaintbrushIcon />}
+        >
+          Clear All
+        </Button>
+        <Button
+          type="submit"
+          classList={{
+            "btn-primary": true,
+          }}
+          Icon={<RocketIcon />}
+        >
+          Submit
+        </Button>
       </div>
     </form>
   );

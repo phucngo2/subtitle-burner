@@ -7,7 +7,7 @@ interface Props {
 const Layout: Component<Props> = (props) => {
   return (
     <div class="w-screen flex flex-col items-center">
-      <div class="app-layout py-6 px-12">{props.children}</div>
+      <div class="app-layout p-8">{props.children}</div>
     </div>
   );
 };

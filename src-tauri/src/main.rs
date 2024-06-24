@@ -38,10 +38,10 @@ fn render(render_info: RenderInfo, app_handle: AppHandle) {
                     progress.time,
                 )
             })
-            .try_for_each(|progress| {
+            .try_for_each(|progress: RenderProgress| {
                 app_handle
                     .emit_all(consts::RENDERING_EVENT, progress)
-                    .map_err(|err| {
+                    .map_err(|err: tauri::Error| {
                         eprintln!("Error emitting rendering event: {}", err);
                         // Return an error to stop iteration
                         std::io::Error::new(std::io::ErrorKind::Other, "Event emission error")

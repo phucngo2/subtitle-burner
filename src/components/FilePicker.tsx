@@ -1,49 +1,71 @@
 import { IVideoRenderRequest } from "@/types";
 import { FieldApi } from "@tanstack/solid-form";
-import { OpenDialogOptions, open } from "@tauri-apps/api/dialog";
-import { Component, Show } from "solid-js";
+import { open } from "@tauri-apps/api/dialog";
+import { Component, JSXElement, Show } from "solid-js";
 
 interface Props {
   label: string;
   field: () => FieldApi<IVideoRenderRequest, any>;
-  dialogOptions?: OpenDialogOptions;
+  allowedExtensions?: string[];
   required?: boolean;
+  Icon?: JSXElement;
 }
 
 export const FilePicker: Component<Props> = (props) => {
   const handleOpenDialog = async () => {
-    let result = await open(props.dialogOptions);
+    let dialogOptions = props.allowedExtensions
+      ? {
+          filters: [
+            {
+              extensions: props.allowedExtensions,
+              name: "*",
+            },
+          ],
+        }
+      : undefined;
+    let result = await open(dialogOptions);
     props.field().handleChange(result);
   };
+
   return (
-    <div class="w-full">
-      <label
-        class="block mb-2 text-sm font-medium text-white"
-        for={props.field().name}
-      >
-        <Show when={props.required}>
-          <span class="text-red-500">*</span>
-        </Show>
-        {props.label}
-      </label>
+    <label class="w-full form-control">
+      {/* Top Label */}
+      <div class="label">
+        <span class="label-text">
+          <Show when={props.required}>
+            <span class="text-red-500">* </span>
+          </Show>
+          {props.label}
+        </span>
+        <span class="label-text-alt">
+          ({props.allowedExtensions?.join(", ")})
+        </span>
+      </div>
 
-      <input
-        class="block w-full text-sm border rounded-lg cursor-pointer text-gray-400 focus:outline-none focus:ring-0 focus:ring-offset-0 bg-gray-700 border-gray-600 placeholder-gray-400"
-        id={props.field().name}
-        name={props.field().name}
-        type="text"
-        value={props.field().state.value}
-        onClick={(e) => {
-          e.preventDefault();
-          handleOpenDialog();
-        }}
-        readonly
-        placeholder="No file choosen"
-      />
+      {/* Input Component with Icon */}
+      <div class="input input-bordered cursor-pointer flex items-center gap-3">
+        {props.Icon}
+        <input
+          type="text"
+          class="w-full grow cursor-pointer"
+          value={props.field().state.value}
+          onClick={(e) => {
+            e.preventDefault();
+            handleOpenDialog();
+          }}
+          readonly
+          placeholder="No file choosen"
+        />
+      </div>
 
+      {/* Bottom Label - Validation message */}
       <Show when={props.field().state.meta.touchedErrors}>
-        <div class="text-red-500">{props.field().state.meta.touchedErrors}</div>
+        <div class="label">
+          <span class="label-text-alt text-red-500">
+            {props.field().state.meta.touchedErrors}
+          </span>
+        </div>
       </Show>
-    </div>
+    </label>
   );
 };
