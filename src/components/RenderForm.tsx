@@ -5,17 +5,18 @@ import {
 } from "@/config/file-extensions.config";
 import { RENDERING_PATH } from "@/config/routes.config";
 import { useInvokeRenderEvent } from "@/events/use-invoke-render.event";
+import { ffmpegVersion } from "@/signals/ffmpeg-info.signal";
 import { IVideoRenderRequest } from "@/types";
 import { getFileValidator } from "@/utils";
 import { useNavigate } from "@solidjs/router";
 import { createForm } from "@tanstack/solid-form";
-import { Component, JSX } from "solid-js";
 import {
   FileTextIcon,
   PaintbrushIcon,
   RocketIcon,
   VideoIcon,
 } from "lucide-solid";
+import { Component, JSX } from "solid-js";
 
 export const RenderForm: Component<{}> = () => {
   const invokeRenderEvent = useInvokeRenderEvent();
@@ -98,6 +99,7 @@ export const RenderForm: Component<{}> = () => {
             "btn-primary": true,
           }}
           Icon={<RocketIcon />}
+          disabled={!ffmpegVersion()}
         >
           Submit
         </Button>

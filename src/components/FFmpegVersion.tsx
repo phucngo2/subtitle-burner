@@ -1,3 +1,4 @@
+import { ffmpegVersion } from "@/signals/ffmpeg-info.signal";
 import { TagIcon } from "lucide-solid";
 import { Component } from "solid-js";
 
@@ -17,9 +18,15 @@ export const FFmpegVersion: Component<{}> = () => {
             class="w-full grow cursor-pointer"
             readonly
             placeholder="FFmpeg not found!"
+            value={ffmpegVersion() || "FFmpeg not found!"}
           />
         </div>
-        <button class="join-item btn btn-secondary">Download</button>
+        <button
+          class="join-item btn btn-secondary"
+          disabled={!!ffmpegVersion()}
+        >
+          Download
+        </button>
       </div>
     </label>
   );

@@ -9,6 +9,7 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             commands::ffmpeg_commands::render,
+            commands::ffmpeg_commands::get_ffmpeg_version,
             commands::file_commands::open_file
         ])
         .run(tauri::generate_context!())

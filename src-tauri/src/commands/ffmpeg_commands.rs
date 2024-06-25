@@ -1,4 +1,5 @@
 use ffmpeg_sidecar::command::FfmpegCommand;
+use ffmpeg_sidecar::version::ffmpeg_version;
 use std::thread;
 use tauri::{AppHandle, Manager};
 
@@ -68,4 +69,18 @@ pub fn render(render_info: RenderInfo, app_handle: AppHandle) {
                 });
         }
     });
+}
+
+#[tauri::command]
+pub fn get_ffmpeg_version() -> Option<String> {
+    match ffmpeg_version() {
+        Ok(version) => {
+            println!("FFmpeg version: {}", version);
+            version.into()
+        }
+        Err(_) => {
+            println!("Failed to retrieve version.");
+            None.into()
+        }
+    }
 }
