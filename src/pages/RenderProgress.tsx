@@ -1,14 +1,18 @@
 import { Header, RenderProgressInfo } from "@/components";
+import { ERROR_PATH, SUCCESS_PATH } from "@/config/routes.config";
 import { useListenRenderResult } from "@/events/use-listen-render-result.event";
+import { useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 
 const RenderProgress: Component<{}> = () => {
+  const navigate = useNavigate();
+
   useListenRenderResult({
-    onSuccess(event) {
-      console.log(event);
+    onSuccess(_) {
+      navigate(SUCCESS_PATH);
     },
-    onError(event) {
-      console.log(event);
+    onError(_) {
+      navigate(ERROR_PATH);
     },
   });
 
