@@ -12,3 +12,7 @@ export interface IVideoRenderProgressInfo {
   speed: number;
   time: string;
 }
+
+export interface ISuccessState {
+  outputFilePath: string;
+}

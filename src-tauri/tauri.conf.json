@@ -14,7 +14,7 @@
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "open": "^[^<>\"|?*\t\n!]+$"
       },
       "dialog": {
         "open": true

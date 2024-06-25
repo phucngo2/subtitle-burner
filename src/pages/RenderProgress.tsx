@@ -8,8 +8,12 @@ const RenderProgress: Component<{}> = () => {
   const navigate = useNavigate();
 
   useListenRenderResult({
-    onSuccess(_) {
-      navigate(SUCCESS_PATH);
+    onSuccess(event) {
+      navigate(SUCCESS_PATH, {
+        state: {
+          outputFilePath: event.payload,
+        },
+      });
     },
     onError(_) {
       navigate(ERROR_PATH);

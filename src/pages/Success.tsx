@@ -1,6 +1,9 @@
 import { Header } from "@/components";
 import { HOME_PATH } from "@/config/routes.config";
-import { useNavigate } from "@solidjs/router";
+import { ISuccessState } from "@/types";
+import { getFolderPath } from "@/utils";
+import { useLocation, useNavigate } from "@solidjs/router";
+import { shell } from "@tauri-apps/api";
 import {
   CircleCheckBigIcon,
   FileIcon,
@@ -13,6 +16,21 @@ const Success: Component<{}> = () => {
   const navigate = useNavigate();
   const handleBackToHome = () => {
     navigate(HOME_PATH);
+  };
+
+  const { state } = useLocation<ISuccessState>();
+  const outputFilePath = state?.outputFilePath;
+
+  const openFileLocation = () => {
+    if (outputFilePath) {
+      shell.open(getFolderPath(outputFilePath));
+    }
+  };
+
+  const openFile = () => {
+    if (outputFilePath) {
+      shell.open(outputFilePath);
+    }
   };
 
   return (
@@ -29,11 +47,11 @@ const Success: Component<{}> = () => {
               <HomeIcon />
               <span>Back to Home</span>
             </button>
-            <button class="join-item btn btn-info">
+            <button class="join-item btn btn-info" onClick={openFileLocation}>
               <FolderOpenIcon />
               <span>Open File Location</span>
             </button>
-            <button class="join-item btn btn-secondary">
+            <button class="join-item btn btn-secondary" onClick={openFile}>
               <FileIcon />
               <span>Open File</span>
             </button>
