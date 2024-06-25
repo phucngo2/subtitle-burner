@@ -3,7 +3,7 @@ import { HOME_PATH } from "@/config/routes.config";
 import { ISuccessState } from "@/types";
 import { getFolderPath } from "@/utils";
 import { useLocation, useNavigate } from "@solidjs/router";
-import { shell } from "@tauri-apps/api";
+import { open } from "@tauri-apps/api/shell";
 import {
   CircleCheckBigIcon,
   FileIcon,
@@ -23,13 +23,13 @@ const Success: Component<{}> = () => {
 
   const openFileLocation = () => {
     if (outputFilePath) {
-      shell.open(getFolderPath(outputFilePath));
+      open(getFolderPath(outputFilePath));
     }
   };
 
   const openFile = () => {
     if (outputFilePath) {
-      shell.open(outputFilePath);
+      open(outputFilePath);
     }
   };
 
