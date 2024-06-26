@@ -10,6 +10,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             commands::ffmpeg_commands::render,
             commands::ffmpeg_commands::get_ffmpeg_version,
+            commands::ffmpeg_commands::download_ffmpeg,
             commands::file_commands::open_file
         ])
         .run(tauri::generate_context!())

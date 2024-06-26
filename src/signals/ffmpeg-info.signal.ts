@@ -1,5 +1,14 @@
 import { createSignal } from "solid-js";
 
-const [ffmpegVersion, setffmpegVersion] = createSignal("");
+export const FFMPEG_STATE = {
+  CHECKING: "checking...",
+  INSTALLING: "installing...",
+  INSTALLED: "installed!",
+  NOT_INSTALLED: "not installed!",
+  ERROR: "error!!!",
+};
 
-export { ffmpegVersion, setffmpegVersion };
+const [ffmpegVersion, setFFmpegVersion] = createSignal("");
+const [ffmpegState, setFFmpegState] = createSignal(FFMPEG_STATE.CHECKING);
+
+export { ffmpegVersion, setFFmpegVersion, ffmpegState, setFFmpegState };

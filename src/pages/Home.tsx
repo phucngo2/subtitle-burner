@@ -1,4 +1,5 @@
 import { Header, RenderForm } from "@/components";
+import { FFmpegMessage } from "@/components/FFmpegMessage";
 import { SETTINGS_PATH } from "@/config/routes.config";
 import { useNavigate } from "@solidjs/router";
 import { CogIcon } from "lucide-solid";
@@ -17,10 +18,12 @@ const Home: Component<{}> = () => {
         <RenderForm />
       </div>
       <div class="flex flex-row items-center w-full">
-        <button class="btn btn-accent" onClick={navigateToSetting}>
-          <CogIcon />
-          <span>Settings</span>
-        </button>
+        <FFmpegMessage>
+          <button class="btn btn-accent" onClick={navigateToSetting}>
+            <CogIcon />
+            <span>Settings</span>
+          </button>
+        </FFmpegMessage>
       </div>
     </div>
   );

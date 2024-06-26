@@ -1,4 +1,5 @@
 use ffmpeg_sidecar::command::FfmpegCommand;
+use ffmpeg_sidecar::download::auto_download;
 use ffmpeg_sidecar::version::ffmpeg_version;
 use std::thread;
 use tauri::{AppHandle, Manager};
@@ -83,4 +84,34 @@ pub fn get_ffmpeg_version() -> Option<String> {
             None.into()
         }
     }
+}
+
+#[tauri::command]
+pub fn download_ffmpeg(app_handle: AppHandle) {
+    println!("Download FFmpeg...");
+    thread::spawn(move || match auto_download() {
+        Ok(_) => {
+            app_handle
+                .emit_to(
+                    consts::MAIN_WINDOW,
+                    consts::FFMPEG_DOWNLOAD_SUCCESS_EVENT,
+                    consts::FFMPEG_DOWNLOAD_SUCCESS_EVENT,
+                )
+                .unwrap_or_else(|err| {
+                    eprintln!("Failed to emit render success event: {}", err);
+                });
+        }
+        Err(_) => {
+            app_handle
+                .emit_to(
+                    consts::MAIN_WINDOW,
+                    consts::FFMPEG_DOWNLOAD_FAILED_EVENT,
+                    consts::FFMPEG_DOWNLOAD_FAILED_EVENT,
+                )
+                .unwrap_or_else(|err| {
+                    eprintln!("Failed to emit render success event: {}", err);
+                });
+            println!("FFmpeg failed to install.");
+        }
+    });
 }

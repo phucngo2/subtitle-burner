@@ -1,8 +1,19 @@
-import { ffmpegVersion } from "@/signals/ffmpeg-info.signal";
+import { useInvokeFFmpegDownloadEvent } from "@/events/use-invoke-ffmpeg-download.event";
+import {
+  FFMPEG_STATE,
+  ffmpegVersion,
+  setFFmpegState,
+} from "@/signals/ffmpeg-info.signal";
 import { TagIcon } from "lucide-solid";
 import { Component } from "solid-js";
 
 export const FFmpegVersion: Component<{}> = () => {
+  const invokeDownloadFFmpeg = useInvokeFFmpegDownloadEvent();
+
+  const handleInstall = () => {
+    setFFmpegState(FFMPEG_STATE.INSTALLING);
+    invokeDownloadFFmpeg();
+  };
   return (
     <label class="w-full form-control">
       {/* Top Label */}
@@ -19,13 +30,15 @@ export const FFmpegVersion: Component<{}> = () => {
             readonly
             placeholder="FFmpeg not found!"
             value={ffmpegVersion() || "FFmpeg not found!"}
+            name="ffmpeg-version"
           />
         </div>
         <button
           class="join-item btn btn-secondary"
           disabled={!!ffmpegVersion()}
+          onClick={handleInstall}
         >
-          Download
+          Install
         </button>
       </div>
     </label>

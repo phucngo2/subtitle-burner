@@ -55,6 +55,7 @@ export const FilePicker: Component<Props> = (props) => {
           }}
           readonly
           placeholder="No file choosen"
+          name={props.field().name}
         />
       </div>
 
