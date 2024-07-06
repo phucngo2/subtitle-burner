@@ -9,3 +9,11 @@ Just a simple desktop application for burning (hardcoding) subtitles into video,
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![DaisyUI](https://img.shields.io/badge/daisyui-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white)
+## Features
+⭐ Hardcode subtitles (.ass, .srt, .vtt) into video files.
+
+⭐ Automatic download of FFmpeg if it's missing from your system.
+## Feedback
+If you encounter any issues or have suggestions for improvements, please let me know by <a href="https://github.com/phucngo2/tauri-subtitle-burner/issues/new" target="_blank">create an issue</a>.
+## See also
+💖 Special thanks to [ffmpeg-sidecar](https://github.com/nathanbabcock/ffmpeg-sidecar).
