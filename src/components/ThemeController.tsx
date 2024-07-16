@@ -1,55 +1,35 @@
-import { Component } from "solid-js";
+import { THEMES } from "@/config/themes.config";
+import { appTheme, setAppTheme } from "@/signals";
+import { capitalizeFirstLetter } from "@/utils";
+import { Component, For, JSX } from "solid-js";
 
 export const ThemeController: Component<{}> = () => {
+  const onThemeItemClick: JSX.EventHandler<HTMLInputElement, Event> = (
+    event
+  ) => {
+    let value = (event.target as HTMLInputElement).value;
+    setAppTheme(value);
+  };
+
   return (
     <div class="w-full form-control">
       <div class="label">
         <span class="label-text">Theme</span>
       </div>
       <div class="join w-full">
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Dark"
-          value="dark"
-          checked
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Synthwave"
-          value="synthwave"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Night"
-          value="night"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Dracula"
-          value="dracula"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Business"
-          value="business"
-        />
-        <input
-          type="radio"
-          name="theme-buttons"
-          class="btn theme-controller join-item"
-          aria-label="Dim"
-          value="dim"
-        />
+        <For each={THEMES}>
+          {(theme) => (
+            <input
+              type="radio"
+              name="theme-buttons"
+              class="btn join-item"
+              aria-label={capitalizeFirstLetter(theme)}
+              value={theme}
+              onClick={onThemeItemClick}
+              checked={appTheme() === theme}
+            />
+          )}
+        </For>
       </div>
     </div>
   );
