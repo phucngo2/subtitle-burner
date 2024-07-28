@@ -20,7 +20,7 @@ export const getFileValidator = ({
   fileExtensions?: string[];
 }): FieldValidators<IVideoRenderRequest, any> => ({
   onChange: ({ value }) => {
-    if (!value) return `An ${fieldName} is required!`;
+    if (!value) return `The '${fieldName}' field is required!`;
     if (fileExtensions && isFileExtensionInvalid(value, fileExtensions))
       return `File extension must be either: ${fileExtensions.join(", ")}!`;
     return undefined;

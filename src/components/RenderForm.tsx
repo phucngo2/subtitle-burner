@@ -49,7 +49,7 @@ export const RenderForm: Component<{}> = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      class="card bg-neutral flex flex-col gap-5 w-full items-center p-8"
+      class="card bg-neutral flex flex-col w-full gap-0.5 items-center p-8"
     >
       <form.Field
         name="inputVideo"
@@ -85,7 +85,7 @@ export const RenderForm: Component<{}> = () => {
           />
         )}
       </form.Field>
-      <div class="w-full flex flex-row items-center justify-center gap-4">
+      <div class="w-full flex flex-row items-center justify-center gap-4 mt-3.5">
         <Button
           type="button"
           onClick={handleClearAll}

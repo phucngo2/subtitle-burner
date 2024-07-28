@@ -33,7 +33,7 @@ const Settings: Component<{}> = () => {
       </div>
       <div class="flex flex-row items-center w-full">
         <FFmpegMessage>
-          <button class="btn" onClick={handleBackToHome}>
+          <button class="btn btn-secondary" onClick={handleBackToHome}>
             <HomeIcon />
             <span>Home</span>
           </button>
