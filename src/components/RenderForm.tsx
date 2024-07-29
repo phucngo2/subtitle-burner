@@ -29,7 +29,6 @@ export const RenderForm: Component<{}> = () => {
       outputVideo: "",
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
       invokeRenderEvent(value);
       navigate(RENDERING_PATH);
     },
