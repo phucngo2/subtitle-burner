@@ -1,9 +1,12 @@
 import { useInvokeFFmpegDownloadEvent } from "@/events/use-invoke-ffmpeg-download.event";
+import { useInvokeFFmpegUninstallEvent } from "@/events/use-invoke-ffmpeg-uninstall.event";
+import { useListenFFmpegUninstallResult } from "@/events/use-listen-ffmpeg-uninstall.event";
 import {
   FFMPEG_STATE,
   ffmpegState,
   ffmpegVersion,
   setFFmpegState,
+  setFFmpegVersion,
   setFFmpegDownloadProgress,
 } from "@/signals/ffmpeg-info.signal";
 import { TagIcon } from "lucide-solid";
@@ -11,6 +14,15 @@ import { Component, Match, Switch } from "solid-js";
 
 export const FFmpegVersion: Component<{}> = () => {
   const invokeDownloadFFmpeg = useInvokeFFmpegDownloadEvent();
+  const invokeUninstallFFmpeg = useInvokeFFmpegUninstallEvent();
+
+  useListenFFmpegUninstallResult({
+    onSuccess: () => {
+      setFFmpegVersion("");
+      setFFmpegState(FFMPEG_STATE.NOT_INSTALLED);
+    },
+    onError: () => {},
+  });
 
   const handleInstall = () => {
     setFFmpegDownloadProgress(0);
@@ -18,7 +30,11 @@ export const FFmpegVersion: Component<{}> = () => {
     invokeDownloadFFmpeg();
   };
 
-  const handleUninstall = () => {};
+  const handleUninstall = () => {
+    setFFmpegState(FFMPEG_STATE.UNINSTALLING);
+    invokeUninstallFFmpeg();
+  };
+
   return (
     <label class="w-full form-control">
       {/* Top Label */}
@@ -58,10 +74,17 @@ export const FFmpegVersion: Component<{}> = () => {
               Installing
             </button>
           </Match>
-          <Match when={ffmpegState() == FFMPEG_STATE.INSTALLED}>
-            <button class="join-item btn btn-error" onClick={handleUninstall}>
-              Uninstall
+          <Match when={ffmpegState() == FFMPEG_STATE.UNINSTALLING}>
+            <button class="join-item btn btn-error" disabled>
+              <span class="loading loading-spinner loading-md"></span>
+              Uninstalling
             </button>
+          </Match>
+          <Match when={ffmpegState() == FFMPEG_STATE.INSTALLED}>
+            <button class="join-item btn btn-primary">Installed</button>
+            {/* <button class="join-item btn btn-error" onClick={handleUninstall}>
+              Uninstall
+            </button> */}
           </Match>
         </Switch>
       </div>

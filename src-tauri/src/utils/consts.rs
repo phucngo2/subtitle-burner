@@ -8,3 +8,5 @@ pub const FFMPEG_DOWNLOAD_SUCCESS_EVENT: &str = "ffmpeg-download-success-event";
 pub const FFMPEG_DOWNLOAD_FAILED_EVENT: &str = "ffmpeg-download-failed-event";
 pub const FFMPEG_DOWNLOAD_PROGRESS_EVENT: &str = "ffmpeg-download-progress-event";
 
+pub const FFMPEG_UNINSTALL_SUCCESS_EVENT: &str = "ffmpeg-uninstall-success-event";
+pub const FFMPEG_UNINSTALL_FAILED_EVENT: &str = "ffmpeg-uninstall-failed-event";

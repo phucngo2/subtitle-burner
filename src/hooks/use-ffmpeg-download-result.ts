@@ -1,6 +1,12 @@
 import { useListenFFmpegDownloadResult } from "@/events/use-listen-ffmpeg-download.event";
 import { useListenFFmpegDownloadProgress } from "@/events/use-listen-ffmpeg-download-progress.event";
-import { FFMPEG_STATE, setFFmpegState, setFFmpegDownloadProgress } from "@/signals/ffmpeg-info.signal";
+import {
+  FFMPEG_STATE,
+  setFFmpegState,
+  setFFmpegDownloadProgress,
+  setFFmpegDownloadedMb,
+  setFFmpegTotalMb,
+} from "@/signals/ffmpeg-info.signal";
 
 export const useFFmpegDownloadResult = () => {
   useListenFFmpegDownloadResult({
@@ -14,6 +20,9 @@ export const useFFmpegDownloadResult = () => {
   });
 
   useListenFFmpegDownloadProgress((event) => {
-    setFFmpegDownloadProgress(event.payload);
+    const { percent, downloaded_mb, total_mb } = event.payload;
+    setFFmpegDownloadProgress(percent);
+    setFFmpegDownloadedMb(downloaded_mb);
+    setFFmpegTotalMb(total_mb);
   });
 };

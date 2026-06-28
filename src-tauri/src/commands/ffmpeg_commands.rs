@@ -5,10 +5,18 @@ use std::thread;
 use std::fs::File;
 use std::io::{Read, Write};
 use std::path::Path;
+use serde::Serialize;
 use tauri::{AppHandle, Manager};
 
 use crate::models::{render_info::RenderInfo, render_progress::RenderProgress};
 use crate::utils::consts;
+
+#[derive(Serialize, Clone)]
+struct DownloadProgress {
+    percent: u64,
+    downloaded_mb: f64,
+    total_mb: f64,
+}
 
 #[tauri::command]
 pub fn render(render_info: RenderInfo, app_handle: AppHandle) {
@@ -91,21 +99,38 @@ pub fn get_ffmpeg_version() -> Option<String> {
 
 fn sidecar_download_ffmpeg_with_progress(app_handle: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     auto_download_with_progress(|event| {
-        let percent: u64 = match event {
-            FfmpegDownloadProgressEvent::Starting => 0,
+        let progress = match event {
+            FfmpegDownloadProgressEvent::Starting => DownloadProgress {
+                percent: 0,
+                downloaded_mb: 0.0,
+                total_mb: 0.0,
+            },
             FfmpegDownloadProgressEvent::Downloading { downloaded_bytes, total_bytes } => {
-                if total_bytes > 0 {
+                let percent = if total_bytes > 0 {
                     (downloaded_bytes as f64 / total_bytes as f64 * 99.0) as u64
                 } else {
                     0
+                };
+                DownloadProgress {
+                    percent,
+                    downloaded_mb: (downloaded_bytes as f64) / 1_048_576.0,
+                    total_mb: (total_bytes as f64) / 1_048_576.0,
                 }
             }
-            FfmpegDownloadProgressEvent::UnpackingArchive => 99,
-            FfmpegDownloadProgressEvent::Done => 100,
+            FfmpegDownloadProgressEvent::UnpackingArchive => DownloadProgress {
+                percent: 99,
+                downloaded_mb: 0.0,
+                total_mb: 0.0,
+            },
+            FfmpegDownloadProgressEvent::Done => DownloadProgress {
+                percent: 100,
+                downloaded_mb: 0.0,
+                total_mb: 0.0,
+            },
         };
 
         app_handle
-            .emit_to(consts::MAIN_WINDOW, consts::FFMPEG_DOWNLOAD_PROGRESS_EVENT, percent)
+            .emit_to(consts::MAIN_WINDOW, consts::FFMPEG_DOWNLOAD_PROGRESS_EVENT, progress)
             .unwrap_or_else(|err| eprintln!("Failed to emit download progress event: {}", err));
     })?;
 
@@ -203,6 +228,64 @@ pub fn download_ffmpeg(app_handle: AppHandle) {
                 .unwrap_or_else(|err| {
                     eprintln!("Failed to emit download failed event: {}", err);
                 });
+        }
+    });
+}
+
+#[tauri::command]
+pub fn uninstall_ffmpeg(app_handle: AppHandle) {
+    println!("Uninstall FFmpeg...");
+    thread::spawn(move || {
+        let result = ffmpeg_sidecar::paths::sidecar_dir()
+            .map_err(|e| format!("Failed to locate sidecar dir: {}", e))
+            .and_then(|dir| {
+                // std::fs::remove_dir_all(&dir)
+                //     .map_err(|e| format!("Failed to remove sidecar dir: {}", e))
+                // Delete each known binary individually — remove_dir_all can fail
+                // on Windows when executables were previously used by the OS.
+                #[cfg(target_os = "windows")]
+                let binaries = ["ffmpeg.exe", "ffprobe.exe", "ffplay.exe"];
+                #[cfg(not(target_os = "windows"))]
+                let binaries = ["ffmpeg", "ffprobe", "ffplay"];
+
+                for binary in &binaries {
+                    let path = dir.join(binary);
+                    if path.exists() {
+                        std::fs::remove_file(&path)
+                            .map_err(|e| format!("Failed to remove {}: {}", binary, e))?;
+                    }
+                }
+
+                // Best-effort: remove the directory if it's now empty
+                let _ = std::fs::remove_dir(&dir);
+
+                Ok(())
+            });
+
+        match result {
+            Ok(_) => {
+                app_handle
+                    .emit_to(
+                        consts::MAIN_WINDOW,
+                        consts::FFMPEG_UNINSTALL_SUCCESS_EVENT,
+                        true,
+                    )
+                    .unwrap_or_else(|err| {
+                        eprintln!("Failed to emit uninstall success event: {}", err);
+                    });
+            }
+            Err(err) => {
+                eprintln!("FFmpeg failed to uninstall: {}", err);
+                app_handle
+                    .emit_to(
+                        consts::MAIN_WINDOW,
+                        consts::FFMPEG_UNINSTALL_FAILED_EVENT,
+                        err,
+                    )
+                    .unwrap_or_else(|err| {
+                        eprintln!("Failed to emit uninstall failed event: {}", err);
+                    });
+            }
         }
     });
 }

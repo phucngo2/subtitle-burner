@@ -10,4 +10,7 @@ export const RENDER_ERROR_EVENT = "rendering-error-event";
 export const FFMPEG_DOWNLOAD_SUCCESS_EVENT = "ffmpeg-download-success-event";
 export const FFMPEG_DOWNLOAD_ERROR_EVENT = "ffmpeg-download-failed-event";
 export const FFMPEG_DOWNLOAD_PROGRESS_EVENT = "ffmpeg-download-progress-event";
+export const FFMPEG_UNINSTALL_SUCCESS_EVENT = "ffmpeg-uninstall-success-event";
+export const FFMPEG_UNINSTALL_FAILED_EVENT = "ffmpeg-uninstall-failed-event";
+
 
