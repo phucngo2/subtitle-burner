@@ -25,7 +25,7 @@
         "label": "main",
         "title": "Subtitle Burner",
         "width": 600,
-        "height": 600,
+        "height": 640,
         "maximizable": false,
         "resizable": false
       }

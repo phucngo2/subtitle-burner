@@ -12,6 +12,7 @@ fn main() {
             commands::ffmpeg_commands::render,
             commands::ffmpeg_commands::get_ffmpeg_version,
             commands::ffmpeg_commands::download_ffmpeg,
+            commands::ffmpeg_commands::uninstall_ffmpeg,
             commands::file_commands::open_file
         ])
         .run(tauri::generate_context!())
