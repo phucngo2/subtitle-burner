@@ -10,5 +10,14 @@ export const FFMPEG_STATE = {
 
 const [ffmpegVersion, setFFmpegVersion] = createSignal("");
 const [ffmpegState, setFFmpegState] = createSignal(FFMPEG_STATE.CHECKING);
+const [ffmpegDownloadProgress, setFFmpegDownloadProgress] = createSignal(0);
 
-export { ffmpegVersion, setFFmpegVersion, ffmpegState, setFFmpegState };
+export {
+  ffmpegVersion,
+  setFFmpegVersion,
+  ffmpegState,
+  setFFmpegState,
+  ffmpegDownloadProgress,
+  setFFmpegDownloadProgress,
+};
+

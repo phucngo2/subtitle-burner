@@ -1,4 +1,4 @@
-import { FFMPEG_STATE, ffmpegState } from "@/signals/ffmpeg-info.signal";
+import { FFMPEG_STATE, ffmpegState, ffmpegDownloadProgress } from "@/signals/ffmpeg-info.signal";
 import { Component, JSXElement, Match, Switch } from "solid-js";
 
 interface Props {
@@ -23,8 +23,8 @@ export const FFmpegMessage: Component<Props> = (props) => {
         </Match>
         <Match when={ffmpegState() == FFMPEG_STATE.INSTALLING}>
           <div class="chat-bubble">
-            <div>🤖 Installing FFmpeg... 🚀</div>
-            <progress class="progress progress-secondary w-full mt-3"></progress>
+            <div>🤖 Installing FFmpeg... {ffmpegDownloadProgress()}% 🚀</div>
+            <progress class="progress progress-secondary w-full mt-3" value={ffmpegDownloadProgress()} max="100"></progress>
           </div>
         </Match>
         <Match when={ffmpegState() == FFMPEG_STATE.INSTALLED}>

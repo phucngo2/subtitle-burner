@@ -6,3 +6,5 @@ pub const RENDERING_ERROR_EVENT: &str = "rendering-error-event";
 
 pub const FFMPEG_DOWNLOAD_SUCCESS_EVENT: &str = "ffmpeg-download-success-event";
 pub const FFMPEG_DOWNLOAD_FAILED_EVENT: &str = "ffmpeg-download-failed-event";
+pub const FFMPEG_DOWNLOAD_PROGRESS_EVENT: &str = "ffmpeg-download-progress-event";
+
