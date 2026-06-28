@@ -3,8 +3,20 @@ export const formatSubtitleFilePath = (subtitleFilePath: string) => {
   return subtitleFilePath.replace(/\\/g, "\\\\").replace(/:/g, "\\:");
 };
 
-export const generateVideoOutputPath = (videoInputPath: string) => {
-  let videoExtension = videoInputPath.split(".").pop();
+export const generateVideoExtension = (videoInputPath: string) =>
+  videoInputPath.split(".").pop();
+
+export const generateVideoOutputPath = (
+  videoInputPath: string,
+  videoOutputPath?: string,
+) => {
+  let videoExtension = generateVideoExtension(videoInputPath);
+
+  if (videoOutputPath) {
+    const folder = videoInputPath.split("\\").slice(0, -1).join("\\");
+    return `${folder}\\${videoOutputPath}.${videoExtension}`;
+  }
+
   return `${videoInputPath}_muxed.${videoExtension}`;
 };
 

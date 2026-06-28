@@ -9,7 +9,10 @@ export const useInvokeRenderEvent = () => {
       renderInfo: {
         input_video: request.inputVideo,
         subtitles_file: formatSubtitleFilePath(request.subtitleFile),
-        output_video: generateVideoOutputPath(request.inputVideo),
+        output_video: generateVideoOutputPath(
+          request.inputVideo,
+          request.outputVideo,
+        ),
       },
     });
   };
