@@ -80,13 +80,13 @@ export const RenderForm: Component<{}> = () => {
         validators={getFileValidator({
           fieldName: "Subtitle File",
           fileExtensions: SUBTITLE_FILE_EXTENSIONS,
+          isRequired: false,
         })}
       >
         {(field) => (
           <FilePicker
             label="Subtitle File"
             field={field}
-            required
             allowedExtensions={SUBTITLE_FILE_EXTENSIONS}
             Icon={<FileTextIcon />}
           />

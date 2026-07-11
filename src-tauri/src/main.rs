@@ -10,6 +10,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             commands::app_commands::exit_app,
             commands::ffmpeg_commands::render,
+            commands::ffmpeg_commands::render_without_subtitles,
             commands::ffmpeg_commands::get_ffmpeg_version,
             commands::ffmpeg_commands::download_ffmpeg,
             commands::ffmpeg_commands::uninstall_ffmpeg,
