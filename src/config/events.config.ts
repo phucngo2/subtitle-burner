@@ -1,5 +1,6 @@
 // Invoke
 export const INVOKE_RENDER_EVENT = "render";
+export const INVOKE_RENDER_EVENT_WITHOUT_SUBTITLES = "render_without_subtitles";
 export const INVOKE_OPEN_FILE_EVENT = "open_file";
 export const INVOKE_FFMPEG_VERSION_EVENT = "get_ffmpeg_version";
 export const INVOKE_FFMPEG_DOWNLOAD_EVENT = "download_ffmpeg";
@@ -12,5 +13,3 @@ export const FFMPEG_DOWNLOAD_ERROR_EVENT = "ffmpeg-download-failed-event";
 export const FFMPEG_DOWNLOAD_PROGRESS_EVENT = "ffmpeg-download-progress-event";
 export const FFMPEG_UNINSTALL_SUCCESS_EVENT = "ffmpeg-uninstall-success-event";
 export const FFMPEG_UNINSTALL_FAILED_EVENT = "ffmpeg-uninstall-failed-event";
-
-

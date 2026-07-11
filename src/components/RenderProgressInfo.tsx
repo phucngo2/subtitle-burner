@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import { Component, onMount } from "solid-js";
 import { InfoItem } from "./InfoItem";
 import { useListenRenderingEvent } from "@/events/use-listen-rendering-progress.event";
 import { createStore } from "solid-js/store";
@@ -11,6 +11,10 @@ export const RenderProgressInfo: Component<{}> = () => {
 
   useListenRenderingEvent((event) => {
     setStore(event.payload as IVideoRenderProgressInfo);
+  });
+
+  onMount(() => {
+    setStore(storeInitialValue);
   });
 
   return (
