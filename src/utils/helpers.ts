@@ -1,15 +1,17 @@
-export const formatSubtitleFilePath = (subtitleFilePath: string) => {
+export const formatSubtitleFilePath = (subtitleFilePath?: string | null) => {
+  if (!subtitleFilePath) return "";
   // Example subtitle path: E\\:\\\\test.srt
   return subtitleFilePath.replace(/\\/g, "\\\\").replace(/:/g, "\\:");
 };
 
-export const generateVideoExtension = (videoInputPath: string) =>
-  videoInputPath.split(".").pop();
+export const generateVideoExtension = (videoInputPath?: string | null) =>
+  videoInputPath ? videoInputPath.split(".").pop() || "" : "";
 
 export const generateVideoOutputPath = (
-  videoInputPath: string,
-  videoOutputPath?: string,
+  videoInputPath?: string | null,
+  videoOutputPath?: string | null,
 ) => {
+  if (!videoInputPath) return "";
   let videoExtension = generateVideoExtension(videoInputPath);
 
   if (videoOutputPath) {

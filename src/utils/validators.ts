@@ -5,6 +5,7 @@ export const isFileExtensionInvalid = (
   filePath: string,
   fileExtensions: string[],
 ) => {
+  if (!filePath) return false;
   var fileExtension = filePath.split(".").pop();
   if (fileExtension && fileExtensions.includes(fileExtension)) {
     return false;
