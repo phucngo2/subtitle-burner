@@ -24,7 +24,9 @@ export const FilePicker: Component<Props> = (props) => {
         }
       : undefined;
     let result = await open(dialogOptions);
-    props.field().handleChange(result);
+    if (typeof result === "string") {
+      props.field().handleChange(result);
+    }
   };
 
   return (
